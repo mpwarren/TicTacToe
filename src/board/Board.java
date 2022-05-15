@@ -29,14 +29,22 @@ import java.util.Random;
  */
 public class Board {
     
+	/** length and width of a tic tac toe board */
 	private static final int BOARD_LEN = 3;
 	
+	/** the array repersentation of the game board */
     private Square[][] board;
     
+    /** the remaining squares left that have not been placed in on the board */
     private ArrayList<Square> remainingSpots;
     
+    /** the log of squares that have been placed in */
     private Square[] log;
-
+    
+    /**
+     * Constructor to create a new game board
+     * Creates the square objects and fills in the array
+     */
     public Board(){
         board = new Square[BOARD_LEN][BOARD_LEN];
         remainingSpots = new ArrayList<Square>();
@@ -58,28 +66,61 @@ public class Board {
         log = new Square[9];
     }
     
+    /**
+     * gets a random spot left on the board
+     * @return a reference to a random square left open on the board
+     */
     public Square getRandomRemainingSpot() {
     	int index = (int)(Math.random() * remainingSpots.size());
     	return remainingSpots.get(index);
     }
     
-    
+    /**
+     * gets a square from the board
+     * @param i the row to get from
+     * @param j the col to get from
+     * @return a reference to the square at (i, j)
+     */
     public Square getSquare(int i, int j) {
     	return board[i][j];
     }
     
+    /**
+     * gets a square that was played in previously
+     * @param turn the turn to get the square from
+     * @return the square played in at the given turn
+     */
     public Square getPastPlay(int turn) {
     	return log[turn - 1];
     }
     
+    /**
+     * adds a play to the log
+     * @param turn the turn of the play
+     * @param i the row to get from
+     * @param j the col to get from
+     */
     public void addToLog(int turn, int i, int j) {
     	log[turn - 1] = board[i][j];
     }
     
+    /**
+     * tells if the square is open at the indexes i, j
+     * @param i the row to get from
+     * @param j the col to get from
+     * @return true if square is open, false otherwise
+     */
     public boolean isOpen(int i, int j) {
     	return board[i][j].getSymbol() == 0;
     }
     
+    /**
+     * plays in the square at i, j
+     * @param i the row to get from
+     * @param j the col to get from
+     * @param symbol the symbol to place
+     * @throws IllegalArgumentException if the spot is already played in
+     */
     public void place(int i, int j, char symbol) {
     	if(!isOpen(i, j)) {
     		throw new IllegalArgumentException("Spot already has already been placed in");
@@ -89,6 +130,9 @@ public class Board {
     	remainingSpots.remove(getSquare(i, j));
     }
     
+    /**
+     * prints out the game board in its current state
+     */
     public void printBoard(){
         for(int i = 0; i < BOARD_LEN; i++) {
         	for(int j = 0; j < BOARD_LEN; j++) {
@@ -104,6 +148,10 @@ public class Board {
         System.out.println("\n");
     }
     
+    /**
+     * checks if someone has won the game
+     * @return the symbol of the winning player, 0 if no one won
+     */
     public char checkWinner() {
     	//Check rows
     	for(int i = 0; i < BOARD_LEN; i++) {
@@ -134,10 +182,21 @@ public class Board {
     	return 0;
     }
     
+    /**
+     * gets the symbol at position i, j
+     * @param i the row to get from
+     * @param j the col to get from
+     * @return the character at that symbol
+     */
     public char getPosition(int i, int j) {
     	return board[i][j].getSymbol();
     }
     
+    /**
+     * Determines if the given symbol can win on this turn
+     * @param symbol the symbol to check and see if they can win
+     * @return an array of the coordinates they could win in: [i, j], null if one can't be made
+     */
     public int[] canWin(char symbol) {
     	int symbolCount = 0;
     	int spaceCount = 0;
@@ -221,10 +280,23 @@ public class Board {
 		return null;
     }
     
+    /**
+     * determines if there is a winnable position in this set of 3 spaces
+     * it is winnable if there are 2 of the same symbol and 1 space
+     * @param symbolCount the number of symbols on the row
+     * @param spaceCount the number of spaces on the row
+     * @return true if they can win, false otherwise
+     */
     private boolean isWinnable(int symbolCount, int spaceCount) {
     	return symbolCount == 2 && spaceCount == 1;
     }
     
+    /**
+     * determines if a winnable play can be made
+     * a winnable play is one where if they play in a certain spot, it will open up 2 chances to win
+     * @param symbol the symbol to see if there is a winnable play
+     * @return the coordinates of where a winnable play can be made [i, j], null if one can't be made
+     */
     public int[] canMakeWinnablePlay(char symbol) {   	
     	for(int i = 0; i < 3; i++) {
     		for(int j = 0; j < 3; j++) {
@@ -251,6 +323,11 @@ public class Board {
     	
     }
     
+    /**
+     * counts how many winnable plays can be made
+     * @param symbol the symbol to check
+     * @return how many winnable playes can be made
+     */
     public int countWinnablePlays(char symbol) {
     	int winnablePlays = 0;
     	int symbolCount = 0;
