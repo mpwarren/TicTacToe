@@ -18,8 +18,8 @@ public class Driver {
 		
 		Scanner scnr = new Scanner(System.in);
 		
-		player1 = new Human('X', scnr);
-		player2 = new Human('O', scnr);
+		player1 = new Human('O', scnr);
+		player2 = new Bot('X');
 		int turn = 1;
 		boolean p1Turn = true;
 		char winner = 0;
@@ -34,10 +34,10 @@ public class Driver {
 			}
 			board.printBoard();
 			winner = board.checkWinner();
-			System.out.println("Winner is: " + winner);
 			turn++;
 		}
 		
 		scnr.close();
+		System.out.print("\nWinner: " + (winner == 0 ? "Tie" : winner));
 	}
 }
