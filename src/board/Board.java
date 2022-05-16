@@ -7,12 +7,13 @@ import java.util.Random;
 /**
  * 
  *  Board Coordinates: (i, j)
+ *               j  
  *  
- *   (0,0) | (0,1) | (0,2)  
- *  -----------------------
- *   (1,0) | (1,1) | (1,2)  
- *  -----------------------
- *   (2,0) | (2,1) | (2,2)  
+ *     (0,0) | (0,1) | (0,2)  
+ *    -----------------------
+ * i   (1,0) | (1,1) | (1,2)  
+ *    -----------------------
+ *     (2,0) | (2,1) | (2,2)  
  *   
  *   
  *   Board indexes for user to type in:
@@ -48,18 +49,16 @@ public class Board {
     public Board(){
         board = new Square[BOARD_LEN][BOARD_LEN];
         remainingSpots = new ArrayList<Square>();
-        int spotsIdx = 0;
         for(int i = 0; i < BOARD_LEN; i++) {
         	for(int j = 0; j < BOARD_LEN; j++) {
         		Square sq;
         		if((i == 0 || i == 2) && (j == 0 || j == 2)) {
         			sq = new Square(i, j, true);
-        			board[i][j] = sq;
         		}
         		else {
         			sq =  new Square(i, j, false);
-        			board[i][j] = sq;
         		}
+        		board[i][j] = sq;
         		remainingSpots.add(sq);
         	}
         }
@@ -116,6 +115,7 @@ public class Board {
     
     /**
      * plays in the square at i, j
+     * removes that square from the remaining spots
      * @param i the row to get from
      * @param j the col to get from
      * @param symbol the symbol to place
@@ -304,7 +304,7 @@ public class Board {
     				continue;
     			}
     			
-    			place(i, j, symbol);
+    			board[i][j].setSymbol(symbol);
     			
     			if(countWinnablePlays(symbol) >= 2) {
     				board[i][j].setSymbol((char)0);

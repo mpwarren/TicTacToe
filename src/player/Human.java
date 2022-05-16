@@ -40,7 +40,7 @@ public class Human extends AbstractPlayer {
 			}
 		}
 		
-		board.place(inputMap[userInput - 1][0], inputMap[userInput - 1][1], getSymbol());
+		play(board, turn, inputMap[userInput - 1][0], inputMap[userInput - 1][1], getSymbol());
 	}
 
 }
