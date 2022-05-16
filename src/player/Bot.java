@@ -35,7 +35,6 @@ public class Bot extends AbstractPlayer {
 		//If the bot can win on this turn
 		int[] pos = board.canWin(getSymbol());
 		if(pos != null) {
-			System.out.println("CAN WIN CASE");
 			board.place(pos[0], pos[1], getSymbol());
 			return;
 		}
@@ -43,7 +42,6 @@ public class Bot extends AbstractPlayer {
 		//Block opponent if they can win on this turn
 		pos = board.canWin(getOppositeSymbol());
 		if(pos != null) {
-			System.out.println("OPPONENT CAN WIN CASE");
 			board.place(pos[0], pos[1], getSymbol());
 			return;
 		}
@@ -51,7 +49,6 @@ public class Bot extends AbstractPlayer {
 		//if we can place where it sets up 2 places to win, do it
 		pos = board.canMakeWinnablePlay(getSymbol());
 		if(pos != null) {
-			System.out.println("WE CAN MAKE WINNABLE PLAY CASE");
 			board.place(pos[0], pos[1], getSymbol());
 			return;
 		}
@@ -123,7 +120,15 @@ public class Bot extends AbstractPlayer {
 		}
 		
 		else if(turn == 6) {
-			playWhereOpponentHasToBlock(board, turn);
+			//if opponent can place where it sets up 2 places to win, block
+			pos = board.canMakeWinnablePlay(getOppositeSymbol());
+			if(pos != null) {
+				board.place(pos[0], pos[1], getSymbol());
+				return;
+			}
+			else {
+				playWhereOpponentHasToBlock(board, turn);
+			}
 		}
 		
 		//Turn 5 and 7 is not needed because the bot went first and set up the board
@@ -144,10 +149,8 @@ public class Bot extends AbstractPlayer {
 					if(board.countWinnablePlays(getSymbol()) > 0){
 						board.getSquare(i, j).setSymbol((char)0);
 						play(board, turn, i, j, getSymbol());
-						System.out.println("" + i + ", " + j + " valid pos");
 						return;
 					}
-					System.out.println("" + i + ", " + j + " not valid pos");
 					board.getSquare(i, j).setSymbol((char)0);
 				}
 			}
@@ -165,7 +168,6 @@ public class Bot extends AbstractPlayer {
 	}
 	
 	private void playInRandomSpot(Board board, int turn) {
-		System.out.println("Playing randomly");
 		Square sq = board.getRandomRemainingSpot();
 		play(board, turn, sq.getIPos(), sq.getJPos(), getSymbol());
 	}

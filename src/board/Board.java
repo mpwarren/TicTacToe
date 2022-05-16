@@ -75,6 +75,15 @@ public class Board {
     }
     
     /**
+     * removes a square from the remaining spots list
+     * @param i the row to remove from
+     * @param j the col to remove from
+     */
+    public void removeFromRemaining(int i, int j) {
+    	remainingSpots.remove(getSquare(i, j));
+    }
+    
+    /**
      * gets a square from the board
      * @param i the row to get from
      * @param j the col to get from
@@ -115,7 +124,6 @@ public class Board {
     
     /**
      * plays in the square at i, j
-     * removes that square from the remaining spots
      * @param i the row to get from
      * @param j the col to get from
      * @param symbol the symbol to place
@@ -127,7 +135,6 @@ public class Board {
     	}
     	
     	board[i][j].setSymbol(symbol);
-    	remainingSpots.remove(getSquare(i, j));
     }
     
     /**

@@ -23,6 +23,7 @@ public abstract class AbstractPlayer {
 	public void play(Board board, int turn, int i, int j, char Symbol) {
 		board.place(i, j, getSymbol());
 		board.addToLog(turn, i, j);
+		board.removeFromRemaining(i, j);
 	}
 	
 	public abstract void turn(Board board, int turn);
