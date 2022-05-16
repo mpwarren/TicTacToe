@@ -66,13 +66,14 @@ public class Bot extends AbstractPlayer {
 		Square prevPlay = board.getPastPlay(turn - 1);
 		
 		if(turn == 2) {
-			//play in the center if they played a corner
-			if(prevPlay.isCorner()) {
-				play(board, turn, 1, 1, getSymbol());
-			}
-			else {
+			//they played in the middle
+			if(prevPlay.getIPos() == 1 && prevPlay.getJPos() == 1){
 				playInRandCorner(board, turn);
 			}
+			else {
+				play(board, turn, 1, 1, getSymbol());
+			}
+			//they played in a side
 			return;
 		}
 		
@@ -98,6 +99,7 @@ public class Bot extends AbstractPlayer {
 			}
 		}
 		else if(turn == 4) {
+			
 			Square firstPlay = board.getPastPlay(1);
 			Square lastPlay = board.getPastPlay(3);
 			//if they played in opposite corners
@@ -158,7 +160,6 @@ public class Bot extends AbstractPlayer {
 		
 		//otherwise, just play randomly
 		playInRandomSpot(board, turn);
-		return;
 	}
 	
 	private void playInRandCorner(Board board, int turn) {
