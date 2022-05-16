@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import board.Board;
 import player.AbstractPlayer;
-import player.Bot;
+import player.HardBot;
 import player.Human;
 
 public class Driver {
@@ -18,8 +18,9 @@ public class Driver {
 		
 		Scanner scnr = new Scanner(System.in);
 		
-		player1 = new Human('O', scnr);
-		player2 = new Bot('X');
+		player1 = new HardBot('X');
+		player2 = new Human('O', scnr);
+		
 		int turn = 1;
 		boolean p1Turn = true;
 		char winner = 0;
